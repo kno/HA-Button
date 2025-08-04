@@ -5,7 +5,8 @@ AppSettingsPage({
   state: {
     config: {
       URL: "",
-      token: ""
+      token: "",
+      runOnStart: false
     }
   },
   setState(props) {
@@ -56,21 +57,39 @@ AppSettingsPage({
               onChange: (value) => {
                 this.saveToConfig("token", value);
               }
+            }),
+            TextInput({
+              label: "Button label",
+              bold: true,
+              value: this.state.config.label,
+              placeholder: "Button label",
+              subStyle: Styles.inputStyle,
+              maxLength: 200,
+              onChange: (value) => {
+                this.saveToConfig("label", value);
+              }
+            }), Toggle({
+              label: "Run on start",
+              value: this.state.config.runOnStart,
+              onChange: (value) => {
+                this.saveToConfig("runOnStart", value);
+              }
             })
           ]
-        ),
+        )
       ]
     );
   },
   getStorage(props) {
     this.state.settingsStorage = props.settingsStorage;
     try {
-    this.state.config = JSON.parse(props.settings.config) || {
-      URL: "",
-      token: ""
-    };
+      this.state.config = JSON.parse(props.settings.config) || {
+        URL: "",
+        token: "",
+        runOnStart: false
+      };
     } catch {
-      this.state.config = {URL: "", token: ""};
+      this.state.config = {URL: "", token: "", runOnStart: false};
     }
   }
 });

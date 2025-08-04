@@ -6,17 +6,20 @@ import {
   FETCH_RESULT_TEXT
 } from "zosLoader:./index.[pf].layout.js";
 
-const logger = Logger.getLogger("fetch_api");
+const logger = Logger.getLogger("HA Button");
 
 let textWidget;
 Page(
   BasePage({
-    state: {},
+    state: {
+      button: null,
+    },
     build() {
-      hmUI.createWidget(hmUI.widget.BUTTON, {
-        ...FETCH_BUTTON,
+      logger.log("state", this.state.buttonLabel)
+      this.state.button = hmUI.createWidget(hmUI.widget.BUTTON, {
+        ...FETCH_BUTTON(this.state.buttonLabel),
         click_func: (button_widget) => {
-          logger.log("click button");
+          this.state.button = button_widget;
           this.fetchData();
         }
       });
@@ -44,14 +47,18 @@ Page(
     onInit() {
       console.log("onInit called");
       this.request({
-        method: "GET_DATA"
+        method: "GET_DATA",
+        params: {
+          initial: true,
+        }
       });
+      this.getConfig();
     },
     getConfig() {
       this.request({
         method: "GET_CONFIG"
       }).then(({ result }) => {
-        console.log("result", JSON.stringify(result));
+        this.state.button.setProperty(hmUI.prop.TEXT, result.label);
       });
     }
   })

@@ -7,7 +7,7 @@ import {
 } from "../utils/config/constants";
 import { DEVICE_WIDTH } from "../utils/config/device";
 
-export const FETCH_BUTTON = {
+export const FETCH_BUTTON = (label) => ({
   x: (DEVICE_WIDTH - px(340)) / 2,
   y: px(280),
   w: px(340),
@@ -16,8 +16,8 @@ export const FETCH_BUTTON = {
   radius: px(12),
   normal_color: DEFAULT_COLOR,
   press_color: DEFAULT_COLOR_TRANSPARENT,
-  text: "Fetch Data",
-};
+  text: label,
+});
 
 export const FETCH_RESULT_TEXT = {
   x: px(50),

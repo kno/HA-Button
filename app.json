@@ -2,20 +2,17 @@
   "configVersion": "v3",
   "app": {
     "appId": 29280,
-    "appName": "Fetch API",
+    "appName": "Abrir verja",
     "appType": "app",
     "version": {
       "code": 1,
       "name": "1.0.1"
     },
     "icon": "icon.png",
-    "vender": "zepp",
-    "description": "A sample application to demonstrate the fetch API"
+    "vender": "kNo",
+    "description": "HA push the button"
   },
-  "permissions": [
-    "data:os.device.info",
-    "device:os.local_storage"
-  ],
+  "permissions": ["data:os.device.info", "device:os.local_storage"],
   "runtime": {
     "apiVersion": {
       "compatible": "4.0",
@@ -27,9 +24,7 @@
     "common": {
       "module": {
         "page": {
-          "pages": [
-            "page/index"
-          ]
+          "pages": ["page/index"]
         },
         "app-side": {
           "path": "app-side/index"
@@ -52,7 +47,7 @@
   },
   "i18n": {
     "en-US": {
-      "appName": "Fetch API"
+      "appName": "HA Button"
     }
   },
   "defaultLanguage": "en-US"

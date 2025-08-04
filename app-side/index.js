@@ -2,9 +2,12 @@ import { BaseSideService } from "@zeppos/zml/base-side";
 import {settingsLib} from '@zeppos/zml/base-side'
 
 
-async function fetchData(res) {
+async function fetchData(res, params) {
   try {
     const config = getConfig();
+    if (!config.runOnStart && params.initial) {
+      return;
+    }
     const response = await fetch({
       url: `${config.URL}/api/services/input_button/press`,
       method: "POST",
@@ -33,13 +36,16 @@ async function fetchData(res) {
 
 const DEFAULT_CONFIG = {
   URL: '',
-  Token: ''
+  Token: '',
+  runOnStart: false,
+  label: '',
 }
 
 function getConfig() {
+  console.log("getConfig", settingsLib.getItem('config'))
   return settingsLib.getItem('config')
     ? JSON.parse(settingsLib.getItem('config'))
-    : [...DEFAULT_CONFIG]
+    : DEFAULT_CONFIG;
 }
 
 AppSideService(
@@ -51,9 +57,10 @@ AppSideService(
     onRequest(req, res) {
       console.log("=====>,", req.method);
       if (req.method === "GET_DATA") {
-        fetchData(res);
+        fetchData(res, req.params);
       }
       if (req.method === "GET_CONFIG") {
+        console.log("GET_CONFIG", getConfig())
         res(null, {
           result: getConfig()
         })
