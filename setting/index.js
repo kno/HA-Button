@@ -3,15 +3,13 @@ import Styles from "./styles";
 AppSettingsPage({
   // 1. Define state
   state: {
-    testKey: null,
     config: {
-      URL: "zzz",
+      URL: "",
       token: ""
     }
   },
   setState(props) {
     this.state.props = props;
-    console.log("config: ", this.state.config);
   },
   setItem() {
     const newString = JSON.stringify(this.state.config);
@@ -24,13 +22,6 @@ AppSettingsPage({
   build(props) {
     // 2. Get SettingsStorage
     this.getStorage(props);
-
-    // 3. Logic
-    const toggleButtonMap = {
-      ["Hello Zepp OSS"]: "Hello Worlda",
-      ["Hello Worlda"]: "Hello Zepp OSS"
-    };
-
     // 4. Return Render Function
     return View(
       {
@@ -68,31 +59,18 @@ AppSettingsPage({
             })
           ]
         ),
-        Button({
-          label: this.state.testKey,
-          style: {
-            fontSize: "12px",
-            borderRadius: "30px",
-            background: "#D85E33",
-            color: "white"
-          },
-          onClick: () => {
-            // 5. Modify the data in settingsStorage in the callback function of the event
-            // props.settingsStorage.setItem(
-            //   "testKey",
-            //   toggleButtonMap[this.state.testKey]
-            // );
-          }
-        })
       ]
     );
   },
   getStorage(props) {
     this.state.settingsStorage = props.settingsStorage;
-    this.state.testKey = props.settings.testKey || "Hello World";
+    try {
     this.state.config = JSON.parse(props.settings.config) || {
       URL: "",
-      Token: ""
+      token: ""
     };
+    } catch {
+      this.state.config = {URL: "", token: ""};
+    }
   }
 });

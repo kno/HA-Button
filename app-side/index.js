@@ -1,56 +1,69 @@
 import { BaseSideService } from "@zeppos/zml/base-side";
+import {settingsLib} from '@zeppos/zml/base-side'
+
 
 async function fetchData(res) {
   try {
-    // Requesting network data using the fetch API
-    // The sample program is for simulation only and does not request real network data, so it is commented here
-    // Example of a GET method request
-    // const { body: { data = {} } = {} } = await fetch({
-    //   url: 'https://xxx.com/api/xxx',
-    //   method: 'GET'
-    // })
-    // Example of a POST method request
-    // const { body: { data = {} } = {} } = await fetch({
-    //   url: 'https://xxx.com/api/xxx',
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     text: 'Hello Zepp OS'
-    //   })
-    // })
-
-    // A network request is simulated here, Reference documentation: https://jsonplaceholder.typicode.com/
+    const config = getConfig();
     const response = await fetch({
-      url: 'https://jsonplaceholder.typicode.com/todos/1',
-      method: 'GET'
-    })
-    const resBody = typeof response.body === 'string' ? JSON.parse(response.body) : response.body
+      url: `${config.URL}/api/services/input_button/press`,
+      method: "POST",
+      headers: {
+        'Authorization': `Bearer ${config.token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        entity_id: 'input_button.verja'
+      })
+    });
+    const resBody =
+      typeof response.body === "string"
+        ? JSON.parse(response.body)
+        : response.body;
 
     res(null, {
-      result: resBody,
+      result: resBody
     });
   } catch (error) {
     res(null, {
-      result: "ERROR",
+      result: "ERROR"
     });
   }
-};
+}
+
+const DEFAULT_CONFIG = {
+  URL: '',
+  Token: ''
+}
+
+function getConfig() {
+  return settingsLib.getItem('config')
+    ? JSON.parse(settingsLib.getItem('config'))
+    : [...DEFAULT_CONFIG]
+}
 
 AppSideService(
   BaseSideService({
-    onInit() {},
+    onInit() {
+      const config = settings.settingsStorage.getItem("config");
+    },
 
     onRequest(req, res) {
       console.log("=====>,", req.method);
       if (req.method === "GET_DATA") {
         fetchData(res);
       }
+      if (req.method === "GET_CONFIG") {
+        res(null, {
+          result: getConfig()
+        })
+      }
     },
 
-    onRun() {},
+    onRun() {
+      console.log("Service is running");
+    },
 
-    onDestroy() {},
+    onDestroy() {}
   })
 );

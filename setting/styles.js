@@ -6,6 +6,7 @@ export default {
     marginBottom: "10px",
     height: "20px",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    overflow: "hidden",
   }
 };

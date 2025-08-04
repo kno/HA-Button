@@ -3,7 +3,7 @@ import { log as Logger } from "@zos/utils";
 import { BasePage } from "@zeppos/zml/base-page";
 import {
   FETCH_BUTTON,
-  FETCH_RESULT_TEXT,
+  FETCH_RESULT_TEXT
 } from "zosLoader:./index.[pf].layout.js";
 
 const logger = Logger.getLogger("fetch_api");
@@ -18,12 +18,12 @@ Page(
         click_func: (button_widget) => {
           logger.log("click button");
           this.fetchData();
-        },
+        }
       });
     },
     fetchData() {
       this.request({
-        method: "GET_DATA",
+        method: "GET_DATA"
       })
         .then((data) => {
           logger.log("receive data");
@@ -33,7 +33,7 @@ Page(
           if (!textWidget) {
             textWidget = hmUI.createWidget(hmUI.widget.TEXT, {
               ...FETCH_RESULT_TEXT,
-              text,
+              text
             });
           } else {
             textWidget.setProperty(hmUI.prop.TEXT, text);
@@ -42,7 +42,17 @@ Page(
         .catch((res) => {});
     },
     onInit() {
-        console.log('onInit called');
+      console.log("onInit called");
+      this.request({
+        method: "GET_DATA"
+      });
+    },
+    getConfig() {
+      this.request({
+        method: "GET_CONFIG"
+      }).then(({ result }) => {
+        console.log("result", JSON.stringify(result));
+      });
     }
   })
 );
