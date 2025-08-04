@@ -4,6 +4,7 @@ import { px } from "@zos/utils";
 import {
   DEFAULT_COLOR,
   DEFAULT_COLOR_TRANSPARENT,
+  WHITE
 } from "../utils/config/constants";
 import { DEVICE_WIDTH } from "../utils/config/device";
 
@@ -16,7 +17,8 @@ export const FETCH_BUTTON = (label) => ({
   radius: px(12),
   normal_color: DEFAULT_COLOR,
   press_color: DEFAULT_COLOR_TRANSPARENT,
-  text: label,
+  color: WHITE,
+  text: label
 });
 
 export const FETCH_RESULT_TEXT = {
@@ -28,5 +30,14 @@ export const FETCH_RESULT_TEXT = {
   text_size: px(36),
   align_h: hmUI.align.CENTER_H,
   align_v: hmUI.align.CENTER_V,
-  text_style: hmUI.text_style.WRAP,
+  text_style: hmUI.text_style.WRAP
+};
+
+export const BG_IMAGE = {
+  src: "icon.png",
+  x: 0,
+  y: 0,
+  auto_scale: true,
+  w: "470",
+  h: "470"
 };

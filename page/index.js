@@ -3,7 +3,8 @@ import { log as Logger } from "@zos/utils";
 import { BasePage } from "@zeppos/zml/base-page";
 import {
   FETCH_BUTTON,
-  FETCH_RESULT_TEXT
+  FETCH_RESULT_TEXT,
+  BG_IMAGE,
 } from "zosLoader:./index.[pf].layout.js";
 
 const logger = Logger.getLogger("HA Button");
@@ -15,7 +16,7 @@ Page(
       button: null,
     },
     build() {
-      logger.log("state", this.state.buttonLabel)
+      hmUI.createWidget(hmUI.widget.IMG, BG_IMAGE);
       this.state.button = hmUI.createWidget(hmUI.widget.BUTTON, {
         ...FETCH_BUTTON(this.state.buttonLabel),
         click_func: (button_widget) => {
