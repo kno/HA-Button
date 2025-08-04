@@ -6,7 +6,9 @@ AppSettingsPage({
     config: {
       URL: "",
       token: "",
-      runOnStart: false
+      runOnStart: false,
+      label: "",
+      entity: ""
     }
   },
   setState(props) {
@@ -68,7 +70,19 @@ AppSettingsPage({
               onChange: (value) => {
                 this.saveToConfig("label", value);
               }
-            }), Toggle({
+            }),
+            TextInput({
+              label: "Entity",
+              bold: true,
+              value: this.state.config.entity,
+              placeholder: "Entity ID",
+              subStyle: Styles.inputStyle,
+              maxLength: 200,
+              onChange: (value) => {
+                this.saveToConfig("entity", value);
+              }
+            }),
+            Toggle({
               label: "Run on start",
               value: this.state.config.runOnStart,
               onChange: (value) => {
@@ -86,10 +100,18 @@ AppSettingsPage({
       this.state.config = JSON.parse(props.settings.config) || {
         URL: "",
         token: "",
-        runOnStart: false
+        runOnStart: false,
+        label: "",
+        entity: ""
       };
     } catch {
-      this.state.config = {URL: "", token: "", runOnStart: false};
+      this.state.config = {
+        URL: "",
+        token: "",
+        runOnStart: false,
+        label: "",
+        entity: ""
+      };
     }
   }
 });

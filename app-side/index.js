@@ -16,7 +16,7 @@ async function fetchData(res, params) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        entity_id: 'input_button.verja'
+        entity_id: config.entity
       })
     });
     const resBody =
