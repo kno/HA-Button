@@ -1,5 +1,6 @@
 import * as hmUI from "@zos/ui";
 import { log as Logger } from "@zos/utils";
+import { Vibrator, VIBRATOR_SCENE_STRONG_REMINDER } from "@zos/sensor";
 import { BasePage } from "@zeppos/zml/base-page";
 import {
   FETCH_BUTTON,
@@ -60,6 +61,18 @@ Page(
         method: "GET_CONFIG"
       }).then(({ result }) => {
         this.state.button.setProperty(hmUI.prop.TEXT, result.label);
+      }).catch(() => {
+        this.state.button.setProperty(hmUI.prop.MORE, {
+          ...FETCH_BUTTON("Error"),
+          normal_color: 0xff0000,
+          press_color: 0xcc0000,
+        });
+
+        const vibrator = new Vibrator();
+        vibrator.start({ mode: VIBRATOR_SCENE_STRONG_REMINDER });
+        setTimeout(() => {
+          vibrator.stop();
+        }, 1500)
       });
     }
   })
